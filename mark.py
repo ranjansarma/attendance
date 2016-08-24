@@ -1,16 +1,20 @@
 import requests
 import datetime
-
-
+import ConfigParser
+config = ConfigParser.RawConfigParser()
+config.read('CONFIG')
 
 def mark():
+    status_set = {"You have already marked your attendance for today!","You have successfully marked your attendance for today!","Today is a holiday!"}
+    uname = config.get('CREDENTIALS','username').strip()
+    passwd = config.get('CREDENTIALS', 'password').strip()
     headers={
         "User-Agent":"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0",
         "Host":"automation.iitg.ernet.in",
         "Referer": "https://automation.iitg.ernet.in/rndops/login.htm"
     }
     s = requests.Session()
-    data = {"Username":"ranjan23", "password":"#Oculus23"}
+    data = {"Username":uname, "password":passwd}
     url = "https://automation.iitg.ernet.in/rndops/login.htm"
     r = s.post(url, data,headers=headers)
 
@@ -21,9 +25,10 @@ def mark():
 
     url = "https://automation.iitg.ernet.in/rndops/markAttendanceAjax.htm"
     r = s.get(url, headers=headers, cookies=r.cookies)
+    if r.text.strip() in status_set:
+        with open('attendence.log','a') as f:
+            f.write(str(datetime.datetime.now()) + ' '+ r.text + '\n')
 
-    with open('attendence.log','a') as f:
-        f.write(str(datetime.datetime.now()) + ' '+ r.text + '\n')
 
 if __name__ == "__main__":
     mark()
