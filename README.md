@@ -22,5 +22,7 @@ License
 
 MIT
 
+> CAUTION!
+> Will work untill no CAPTCHA verification is added!
 
 ***Free Software. Hell Yeah!!***
