@@ -14,7 +14,7 @@ After setting the username and password, execute the mark.py
 ```sh
 $ python [PATH TO]/mark.py
 ```
-A log file named attendance.log will pe created with a status message of successfull marking.
+A log file named attendance.log will be created with a status message of successfull marking.
 
 ### CRON job settings
 Open your cron tab configuration
