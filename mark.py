@@ -1,8 +1,11 @@
 import requests
 import datetime
+import os
 import ConfigParser
 config = ConfigParser.RawConfigParser()
-config.read('CONFIG')
+file_path = os.path.realpath(__file__).rsplit('/',1)[0]
+config.read(file_path + '/CONFIG')
+
 
 def mark():
     status_set = {"You have already marked your attendance for today!","You have successfully marked your attendance for today!","Today is a holiday!"}
@@ -22,11 +25,10 @@ def mark():
     url = "https://automation.iitg.ernet.in/rndops/viewAttendance.htm"
     r = s.post(url,headers=headers,cookies=r.cookies)
     #print r.text
-
     url = "https://automation.iitg.ernet.in/rndops/markAttendanceAjax.htm"
     r = s.get(url, headers=headers, cookies=r.cookies)
     if r.text.strip() in status_set:
-        with open('attendence.log','a') as f:
+        with open(file_path + '/attendence.log','a') as f:
             f.write(str(datetime.datetime.now()) + ' '+ r.text + '\n')
 
 
